@@ -1,0 +1,19 @@
+{
+    "name": "stecman/composer-bash-completion-plugin",
+    "type": "composer-plugin",
+
+    "extra": {
+        "class": "\\Stecman\\Component\\Symfony\\Console\\BashCompletion\\BashCompletionPlugin"
+    },
+    
+    "require": {
+        "composer-plugin-api": "1.0.0",
+        "stecman/symfony-console-completion": "~0.3.0"
+    },
+
+    "autoload": {
+    	"psr-4": {
+    		"Stecman\\Component\\Symfony\\Console\\BashCompletion\\": "src"
+    	}
+    }
+}
