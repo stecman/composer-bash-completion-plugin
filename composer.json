@@ -1,6 +1,7 @@
 {
     "name": "stecman/composer-bash-completion-plugin",
     "type": "composer-plugin",
+    "license": "MIT",
 
     "extra": {
         "class": "\\Stecman\\Component\\Symfony\\Console\\BashCompletion\\BashCompletionPlugin"
