@@ -6,7 +6,7 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
 
 ## Installation
 
-1. Run `composer g require stecman/composer-bash-complete-plugin dev-master`
+1. Run `composer g require stecman/composer-bash-completion-plugin dev-master`
 2. Put the following in your bash profile:
 
     ```bash
