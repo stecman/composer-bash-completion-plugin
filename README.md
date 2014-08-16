@@ -1,4 +1,4 @@
-# BASH auto complete plugin for Composer
+# BASH/ZSH auto-complete plugin for Composer
 
 This is an experimental hack to add [Symfony BASH auto complete](https://github.com/stecman/symfony-console-completion) to Composer via a plugin. It's a pretty slimy hack, but it works without editing Composer's code.
 
@@ -7,7 +7,8 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
 ## Installation
 
 1. Run `composer g require stecman/composer-bash-completion-plugin dev-master`
-2. Put the following in your bash profile:
+2. Add a completion hook to your shell's user config file:
+  - If you're using BASH, put the following in your `~/.bash_profile` file:
 
     ```bash
     # Modified version of what `composer _completion -g -p composer` generates
@@ -33,7 +34,31 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
     };
     complete -F _composercomplete composer;
     ```
-
+  - If you're using ZSH, put the following in your `~/.zshrc` file:
+    
+    ```bash
+    function _composer {
+        # Emulate BASH's command line contents variable
+        local -x COMP_LINE="$words"
+    
+        # Emulate BASH's cursor position variable, setting it to the end of the current word.
+        local -x COMP_POINT
+        (( COMP_POINT = ${#${(j. .)words[1,CURRENT]}} ))
+    
+        RESULT=("${(@f)$( cd $HOME/.composer && composer _completion )}")
+        STATUS=$?;
+    
+        # Bail out if PHP didn't exit cleanly
+        if [ $STATUS -ne 0 ]; then
+            echo $RESULT;
+            return $?;
+        fi;
+    
+        compadd -- $RESULT
+    };
+    
+    compdef _composer composer;
+    ```
 3. Reload your bash profile (or open a new shell), and enjoy tab completion on Composer
 
 ## Explanation
