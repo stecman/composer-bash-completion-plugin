@@ -59,7 +59,7 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
     
     compdef _composer composer;
     ```
-3. Reload your bash profile (or open a new shell), and enjoy tab completion on Composer
+3. Reload the modified shell config (or open a new shell), and enjoy tab completion on Composer
 
 ## Explanation
 
