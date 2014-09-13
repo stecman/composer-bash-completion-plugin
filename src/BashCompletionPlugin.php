@@ -5,7 +5,6 @@ namespace Stecman\Component\Symfony\Console\BashCompletion;
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
-use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 use Symfony\Component\Console\Input\ArgvInput;
 
 class BashCompletionPlugin implements PluginInterface
@@ -23,7 +22,7 @@ class BashCompletionPlugin implements PluginInterface
         if ($this->getInput()->getFirstArgument() === '_completion' && !$__bashCompletionInjected) {
             $__bashCompletionInjected = true;
 
-            $application->add(new CompletionCommand());
+            $application->add(new ComposerCompletionCommand());
             $application->run();
             die();
         }
