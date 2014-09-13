@@ -11,14 +11,18 @@ class ComposerCompletionCommand extends CompletionCommand
         $context = $this->handler->getContext();
         $words = $context->getWords();
 
-        // Allow completions for global
-        if ($words[1] === 'global') {
-            $context->setCommandLine(
-                preg_replace('/ global/', '', $context->getCommandLine(), 1)
-            );
+        // Allow completions for composer global/g
+        if ($words[1] === 'global' || $words[1] === 'g') {
+            
+            // Adjust for the removal of the word 'global'/'g'
+            $replace = function($matches) use ($context) {
+                $context->setCharIndex($context->getCharIndex() - strlen($matches[1]));
+                return '';
+            };
 
-            // Adjust for the removal of the word 'global'
-            $context->setCharIndex($context->getCharIndex() - 7);
+            $context->setCommandLine(
+                preg_replace_callback('/( global| g)( |$)/', $replace, $context->getCommandLine(), 1)
+            );
         }
 
         return $this->handler->runCompletion();
