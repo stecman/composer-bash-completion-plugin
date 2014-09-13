@@ -17,7 +17,13 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
     function _composercomplete {
         export COMP_LINE COMP_POINT COMP_WORDBREAKS;
 
-        RESULT=`cd $HOME/.composer && composer _completion`;
+        # Honour the COMPOSER_HOME variable if set
+        local composer_dir=$COMPOSER_HOME
+        if [ -z "$composer_dir" ]; then
+            composer_dir=$HOME/.composer
+        fi
+
+        RESULT=`cd $composer_dir && composer _completion`;
         STATUS=$?;
 
         if [ $STATUS -ne 0 ]; then
@@ -40,12 +46,18 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
     function _composer {
         # Emulate BASH's command line contents variable
         local -x COMP_LINE="$words"
-    
+
         # Emulate BASH's cursor position variable, setting it to the end of the current word.
         local -x COMP_POINT
         (( COMP_POINT = ${#${(j. .)words[1,CURRENT]}} ))
+
+        # Honour the COMPOSER_HOME variable if set
+        local composer_dir=$COMPOSER_HOME
+        if [ -z "$composer_dir" ]; then
+            composer_dir=$HOME/.composer
+        fi
     
-        RESULT=("${(@f)$( cd $HOME/.composer && composer _completion )}")
+        RESULT=("${(@f)$( cd $composer_dir && composer _completion )}")
         STATUS=$?;
     
         # Bail out if PHP didn't exit cleanly
