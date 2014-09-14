@@ -16,6 +16,7 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
     # so  for this hack to work, we are always running the completion command in ~/.composer
     function _composercomplete {
         export COMP_LINE COMP_POINT COMP_WORDBREAKS;
+        local -x COMPOSER_CWD=`pwd`
         local RESULT STATUS
 
         # Honour the COMPOSER_HOME variable if set
@@ -59,6 +60,7 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
         fi
     
         local RESULT STATUS
+        local -x COMPOSER_CWD=`pwd`
         RESULT=("${(@f)$( cd $composer_dir && composer _completion )}")
         STATUS=$?;
     
