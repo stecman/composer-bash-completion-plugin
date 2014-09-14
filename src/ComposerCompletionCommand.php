@@ -3,6 +3,7 @@
 namespace Stecman\Component\Symfony\Console\BashCompletion;
 
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion;
 
 class ComposerCompletionCommand extends CompletionCommand
 {
@@ -24,6 +25,25 @@ class ComposerCompletionCommand extends CompletionCommand
                 preg_replace_callback('/( global| g)( |$)/', $replace, $context->getCommandLine(), 1)
             );
         }
+
+        // Complete for `help` command's `command` argument
+        $application = $this->getApplication();
+        $this->handler->addHandler(
+            new Completion(
+                'help',
+                'command_name',
+                Completion::TYPE_ARGUMENT,
+                function() use ($application) {
+                    $names = array_keys($application->all());
+
+                    if ($key = array_search('_completion', $names)) {
+                        unset($names[$key]);
+                    }
+
+                    return $names;
+                }
+            )
+        );
 
         return $this->handler->runCompletion();
     }
