@@ -13,7 +13,7 @@ class ComposerCompletionCommand extends CompletionCommand
         $words = $context->getWords();
 
         // Allow completions for composer global/g
-        if ($words[1] === 'global' || $words[1] === 'g') {
+        if (isset($words[1]) && ($words[1] === 'global' || $words[1] === 'g')) {
             
             // Adjust for the removal of the word 'global'/'g'
             $replace = function($matches) use ($context) {
