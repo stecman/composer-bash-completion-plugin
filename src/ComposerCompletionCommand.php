@@ -23,12 +23,12 @@ class ComposerCompletionCommand extends CompletionCommand
             
             // Adjust for the removal of the word 'global'/'g'
             $replace = function($matches) use ($context) {
-                $context->setCharIndex($context->getCharIndex() - strlen($matches[1]));
+                $context->setCharIndex($context->getCharIndex() - strlen($matches[0]));
                 return '';
             };
 
             $context->setCommandLine(
-                preg_replace_callback('/( global| g)( |$)/', $replace, $context->getCommandLine(), 1)
+                preg_replace_callback('/ (global|g)/', $replace, $context->getCommandLine(), 1)
             );
 
             $this->isGlobal = true;
