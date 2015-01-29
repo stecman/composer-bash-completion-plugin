@@ -25,7 +25,7 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
             composer_dir=$HOME/.composer
         fi
 
-        RESULT=`cd $composer_dir && composer _completion`;
+        RESULT=`cd $composer_dir && composer depends _completion`;
         STATUS=$?;
 
         if [ $STATUS -ne 0 ]; then
@@ -61,7 +61,7 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
     
         local RESULT STATUS
         local -x COMPOSER_CWD=`pwd`
-        RESULT=("${(@f)$( cd $composer_dir && composer _completion )}")
+        RESULT=("${(@f)$( cd $composer_dir && composer depends _completion )}")
         STATUS=$?;
     
         # Bail out if PHP didn't exit cleanly
@@ -79,4 +79,4 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
 
 ## Explanation
 
-This hacky plugin injects an additional command into the Composer application at runtime. It relies on the fact that when handling an uncaught exception, `Composer\Console\Application::renderException` is called, which in turn calls `getComposer` and causes Composer plugins to be loaded. When the plugin in this package is activated and the first command line argument is `_completion`, the plugin effectively reboots the application with the completion command added.
+This hacky plugin injects an additional command into the Composer application at runtime. When the plugin in this package is activated and the command line starts with `composer depends _completion`, the plugin effectively reboots the application with the completion command added, and drops `depends` from the command line so that `_completion` becomes the command argument. This used to work without piggy-backing on a command, but an update to composer stopped the original method working (#8).

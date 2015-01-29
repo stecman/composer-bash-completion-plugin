@@ -5,7 +5,9 @@ namespace Stecman\Component\Symfony\Console\BashCompletion;
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class BashCompletionPlugin implements PluginInterface
 {
@@ -16,27 +18,22 @@ class BashCompletionPlugin implements PluginInterface
 
     public function activate(Composer $composer, IOInterface $io)
     {
+        /** @var Application $application */
+        global $argv;
         global $application;
         global $__bashCompletionInjected;
 
-        if ($this->getInput()->getFirstArgument() === '_completion' && !$__bashCompletionInjected) {
+        // Inject completion command when the command line is `composer depends _completion`
+        if ($argv[1] == 'depends' && $argv[2] == '_completion' && !$__bashCompletionInjected) {
             $__bashCompletionInjected = true;
 
+            // Drop the original command name argument so that "_completion" takes its place
+            array_splice($argv, 1, 1);
+            $input = new ArgvInput($argv);
+
             $application->add(new ComposerCompletionCommand());
-            $application->run();
+            $application->run($input);
             die();
         }
-    }
-
-    /**
-     * @return ArgvInput
-     */
-    protected function getInput()
-    {
-        if (!$this->input) {
-            $this->input = new ArgvInput();
-        }
-
-        return $this->input;
     }
 }
