@@ -8,7 +8,7 @@
     },
     
     "require": {
-        "composer-plugin-api": "1.0.0",
+        "composer-plugin-api": "^1.0",
         "stecman/symfony-console-completion": "~0.3.0"
     },
 
