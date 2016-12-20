@@ -12,13 +12,13 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
 
     ```bash
     # Add shell auto-completion for composer
-    source "${COMPOSER_HOME-$HOME}/.composer/vendor/stecman/composer-bash-completion-plugin/hooks/bash-completion"
+    source "${COMPOSER_HOME-$HOME/.composer}/vendor/stecman/composer-bash-completion-plugin/hooks/bash-completion"
     ```
   - If you're using ZSH, put the following in your `~/.zshrc` file:
     
     ```bash
     # Add shell auto-completion for composer
-    source "${COMPOSER_HOME-$HOME}/.composer/vendor/stecman/composer-bash-completion-plugin/hooks/zsh-completion"
+    source "${COMPOSER_HOME-$HOME/.composer}/vendor/stecman/composer-bash-completion-plugin/hooks/zsh-completion"
     ```
 3. Reload the modified shell config (or open a new shell), and enjoy tab completion on Composer
 
