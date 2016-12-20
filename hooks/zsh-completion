@@ -1,0 +1,27 @@
+# Modified version of what `composer _completion -g -p composer` generates
+# Composer will only load plugins when a valid composer.json is in its working directory,
+# so  for this hack to work, we are always running the completion command in ~/.composer
+function _composer {
+    local -x CMDLINE_CONTENTS="$words"
+    local -x CMDLINE_CURSOR_INDEX
+    (( CMDLINE_CURSOR_INDEX = ${#${(j. .)words[1,CURRENT]}} ))
+
+    # Honour the COMPOSER_HOME variable if set
+    local composer_dir=$COMPOSER_HOME
+    if [ -z "$composer_dir" ]; then
+        composer_dir=$HOME/.composer
+    fi
+
+    local RESULT STATUS
+    RESULT=("${(@f)$( cd $composer_dir && composer depends _completion )}")
+    STATUS=$?;
+
+    if [ $STATUS -ne 0 ]; then
+        echo -e "$RESULT";
+        return $?;
+    fi;
+
+    compadd -- $RESULT
+};
+
+compdef _composer composer;
