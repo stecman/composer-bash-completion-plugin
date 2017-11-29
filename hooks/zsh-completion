@@ -6,14 +6,13 @@ function _composer {
     local -x CMDLINE_CURSOR_INDEX
     (( CMDLINE_CURSOR_INDEX = ${#${(j. .)words[1,CURRENT]}} ))
 
-    # Honour the COMPOSER_HOME variable if set
-    local composer_dir=$COMPOSER_HOME
-    if [ -z "$composer_dir" ]; then
-        composer_dir=$HOME/.composer
+    # Query and cache where the global composer.json lives
+    if [ -z "$_composer_config_dir" ]; then
+        _composer_config_dir="$(composer config home --global)"
     fi
 
     local RESULT STATUS
-    RESULT=("${(@f)$( cd $composer_dir && composer depends _completion )}")
+    RESULT=("${(@f)$( cd $_composer_config_dir && composer depends _completion )}")
     STATUS=$?;
 
     if [ $STATUS -ne 0 ]; then

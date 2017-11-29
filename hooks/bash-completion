@@ -8,15 +8,13 @@ function _composercomplete {
 
     export CMDLINE_CONTENTS CMDLINE_CURSOR_INDEX CMDLINE_WORDBREAKS
 
-    # Honour the COMPOSER_HOME variable if set
-    local composer_dir=$COMPOSER_HOME
-    if [ -z "$composer_dir" ]; then
-        composer_dir=$HOME/.composer
+    # Query and cache where the global composer.json lives
+    if [ -z "$_composer_config_dir" ]; then
+        _composer_config_dir="$(composer config home --global)"
     fi
 
     local RESULT STATUS;
-
-    RESULT=$(cd $composer_dir && composer depends _completion);
+    RESULT=$(cd "$_composer_config_dir" && composer depends _completion);
     STATUS=$?;
 
     local cur;

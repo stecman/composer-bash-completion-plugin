@@ -1,0 +1,15 @@
+# Generate registration code to go in a shell profile
+
+_composercomplete_hook_dir="$(composer config home --global)/vendor/stecman/composer-bash-completion-plugin/hooks"
+
+echo "# Add tab auto-completion for composer"
+
+if [ ! -z $BASH_VERSION ]; then
+	echo "source $_composercomplete_hook_dir/bash-completion"
+fi
+
+if [ ! -z $ZSH_VERSION ]; then
+	echo "source $_composercomplete_hook_dir/zsh-completion"
+fi
+
+unset _composercomplete_hook_dir

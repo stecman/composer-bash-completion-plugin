@@ -6,21 +6,24 @@ This is an experimental hack to add [Symfony BASH auto complete](https://github.
 
 ## Installation
 
-1. Run `composer global require stecman/composer-bash-completion-plugin dev-master`
-2. Add a completion hook to your shell's user config file:
-  - If you're using BASH, put the following in your `~/.bash_profile` file:
+1. Install the plugin:
 
-    ```bash
-    # Add shell auto-completion for composer
-    source "${COMPOSER_HOME-$HOME/.composer}/vendor/stecman/composer-bash-completion-plugin/hooks/bash-completion"
-    ```
-  - If you're using ZSH, put the following in your `~/.zshrc` file:
-    
-    ```bash
-    # Add shell auto-completion for composer
-    source "${COMPOSER_HOME-$HOME/.composer}/vendor/stecman/composer-bash-completion-plugin/hooks/zsh-completion"
-    ```
-3. Reload the modified shell config (or open a new shell), and enjoy tab completion on Composer
+  ```
+  composer global require stecman/composer-bash-completion-plugin dev-master
+  ```
+
+2. Generate code to register a completion hook for your shell and Composer configuration:
+
+  ```
+  source $(composer config home --global)/vendor/stecman/composer-bash-completion-plugin/generate-hook
+  ```
+
+3. Add the registration code to your shell profile:
+
+  - If you're using BASH, copy the output to your `~/.bash_profile`
+  - If you're using ZSH, copy the output to your `~/.zshrc`
+
+4. Reload your modified shell config (or open a new shell), and enjoy tab completion on Composer
 
 ## Explanation
 
