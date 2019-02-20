@@ -7,7 +7,6 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\ArrayInput;
 
 class BashCompletionPlugin implements PluginInterface
 {
@@ -22,6 +21,10 @@ class BashCompletionPlugin implements PluginInterface
         global $argv;
         global $application;
         global $__bashCompletionInjected;
+
+        if (count($argv) < 2) {
+            return;
+        }
 
         // Inject completion command when the command line is `composer depends _completion`
         if ($argv[1] == 'depends' && $argv[2] == '_completion' && !$__bashCompletionInjected) {
