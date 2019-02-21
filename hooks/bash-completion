@@ -5,8 +5,9 @@ function _composercomplete {
     local CMDLINE_CONTENTS="$COMP_LINE"
     local CMDLINE_CURSOR_INDEX="$COMP_POINT"
     local CMDLINE_WORDBREAKS="$COMP_WORDBREAKS";
+    local COMPOSER_CWD="$PWD"
 
-    export CMDLINE_CONTENTS CMDLINE_CURSOR_INDEX CMDLINE_WORDBREAKS
+    export CMDLINE_CONTENTS CMDLINE_CURSOR_INDEX CMDLINE_WORDBREAKS COMPOSER_CWD
 
     # Query and cache where the global composer.json lives
     if [ -z "$_composer_config_dir" ]; then

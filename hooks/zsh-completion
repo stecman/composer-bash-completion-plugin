@@ -4,6 +4,7 @@
 function _composer {
     local -x CMDLINE_CONTENTS="$words"
     local -x CMDLINE_CURSOR_INDEX
+    local -x COMPOSER_CWD="$PWD"
     (( CMDLINE_CURSOR_INDEX = ${#${(j. .)words[1,CURRENT]}} ))
 
     # Query and cache where the global composer.json lives
