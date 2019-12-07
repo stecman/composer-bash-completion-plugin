@@ -27,7 +27,7 @@ class BashCompletionPlugin implements PluginInterface
         }
 
         // Inject completion command when the command line is `composer depends _completion`
-        if ($argv[1] == 'depends' && $argv[2] == '_completion' && !$__bashCompletionInjected) {
+        if (is_array($argv) && $argv[1] == 'depends' && $argv[2] == '_completion' && !$__bashCompletionInjected) {
             $__bashCompletionInjected = true;
 
             // Drop the original command name argument so that "_completion" takes its place
