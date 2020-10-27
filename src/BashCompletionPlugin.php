@@ -39,4 +39,14 @@ class BashCompletionPlugin implements PluginInterface
             die();
         }
     }
+
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+        // Required method in Composer 2.x
+    }
+
+    public function uninstall(Composer $composer, IOInterface $io)
+    {
+        // Required method in Composer 2.x
+    }
 }

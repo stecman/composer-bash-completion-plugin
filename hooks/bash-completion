@@ -9,13 +9,16 @@ function _composercomplete {
 
     export CMDLINE_CONTENTS CMDLINE_CURSOR_INDEX CMDLINE_WORDBREAKS COMPOSER_CWD
 
+	# Run using the program being completed
+	local composer="$1"
+
     # Query and cache where the global composer.json lives
     if [ -z "$_composer_config_dir" ]; then
-        _composer_config_dir="$(composer config home --global)"
+        _composer_config_dir="$($composer config home --global)"
     fi
 
     local RESULT STATUS;
-    RESULT=$(cd "$_composer_config_dir" && composer depends _completion);
+    RESULT=$(cd "$_composer_config_dir" && $composer depends _completion);
     STATUS=$?;
 
     local cur;
