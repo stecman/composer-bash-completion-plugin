@@ -2,29 +2,33 @@
 # Composer will only load plugins when a valid composer.json is in its working directory,
 # so  for this hack to work, we are always running the completion command in ~/.composer
 function _composer {
-    local -x CMDLINE_CONTENTS="$words"
-    local -x CMDLINE_CURSOR_INDEX
-    local -x COMPOSER_CWD="$PWD"
-    (( CMDLINE_CURSOR_INDEX = ${#${(j. .)words[1,CURRENT]}} ))
+    local -x CMDLINE_CONTENTS="$words";
+    local -x CMDLINE_CURSOR_INDEX;
+    (( CMDLINE_CURSOR_INDEX = ${#${(j. .)words[1,CURRENT]}} ));
 
-	# Run using the program being completed
-	local composer="$words[1]"
+    # Run using the program being completed
+    local -x COMPOSER_CWD="$PWD";
+    local COMPOSER="$words[1]"
 
     # Query and cache where the global composer.json lives
     if [ -z "$_composer_config_dir" ]; then
-        _composer_config_dir="$($composer config home --global)"
+        _composer_config_dir="$($COMPOSER config home --global)"
     fi
 
-    local RESULT STATUS
-    RESULT=("${(@f)$( cd $_composer_config_dir && $composer depends _completion )}")
+    local RESULT STATUS;
+    RESULT=("${(@f)$( cd $_composer_config_dir && $COMPOSER depends _completion --shell-type zsh )}");
     STATUS=$?;
 
-    if [ $STATUS -ne 0 ]; then
+    if [ $STATUS -eq 200 ]; then
+        _path_files;
+        return 0;
+
+    elif [ $STATUS -ne 0 ]; then
         echo -e "$RESULT";
         return $?;
     fi;
 
-    compadd -- $RESULT
+    compadd -- $RESULT;
 };
 
 compdef _composer composer;
