@@ -2,9 +2,6 @@
 
 namespace Stecman\Component\Symfony\Console\BashCompletion;
 
-use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
-use Stecman\Component\Symfony\Console\BashCompletion\Completion;
-
 class ComposerCompletionCommand extends CompletionCommand
 {
     /**
@@ -85,6 +82,7 @@ class ComposerCompletionCommand extends CompletionCommand
         // Complete for `remove` and `update` commands `packages` argument
         $this->handler->addHandler(new Completion('remove', 'packages', Completion::TYPE_ARGUMENT, $completeRequiredPackages));
         $this->handler->addHandler(new Completion('update', 'packages', Completion::TYPE_ARGUMENT, $completeRequiredPackages));
+        $this->handler->addHandler(new Completion('show', 'package', Completion::TYPE_ARGUMENT, $completeRequiredPackages));
     }
 
     /**
