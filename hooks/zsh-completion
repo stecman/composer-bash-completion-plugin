@@ -16,7 +16,7 @@ function _composer {
     fi
 
     local RESULT STATUS;
-    RESULT=("${(@f)$( cd $_composer_config_dir && $COMPOSER depends _completion --shell-type zsh )}");
+    RESULT=("${(@f)$( cd $_composer_config_dir && COMPLETION_OPTIONS='--shell-type zsh' $COMPOSER depends _completion )}");
     STATUS=$?;
 
     if [ $STATUS -eq 200 ]; then

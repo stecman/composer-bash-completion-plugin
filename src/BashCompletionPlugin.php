@@ -32,6 +32,15 @@ class BashCompletionPlugin implements PluginInterface
 
             // Drop the original command name argument so that "_completion" takes its place
             array_splice($argv, 1, 1);
+
+            // Append any additional arguments passed through the environment
+            // It used to be possible to pass these naturally, but Composer's plugin load / parsing order currently prevents that
+            $parser = new CompletionContext();
+            $parser->setCommandLine('discarded_arg ' . getenv('COMPLETION_OPTIONS'));
+            $extraArgs = $parser->getWords();
+            array_shift($extraArgs);
+            array_push($argv, ...$extraArgs);
+
             $input = new ArgvInput($argv);
 
             $application->add(new ComposerCompletionCommand());

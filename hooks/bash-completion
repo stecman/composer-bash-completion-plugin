@@ -21,7 +21,7 @@ function _composercomplete {
 
     local IFS=$'\n';
 
-    RESULT="$(cd "$_composer_config_dir" && $composer depends _completion --shell-type bash </dev/null)";
+    RESULT="$(cd "$_composer_config_dir" && COMPLETION_OPTIONS='--shell-type bash' $composer depends _completion </dev/null)";
     STATUS=$?;
 
     local cur mail_check_backup;
